@@ -1,38 +1,58 @@
 <html>
+<body>
+  <div id="container">
+    <div class="input">
+      <input type="number" id="numberOfPlayers" value="">
+      <button onclick="roundRobin()" type="button" name="button">Submit</button>
+    </div>
+    <div id="games"></div>
+  </div>
+</body>
+
 <script>
 
-roundRobin(6);
-
-  function roundRobin(number) {
+  function roundRobin() {
+   var number = document.getElementById('numberOfPlayers').value;
+   var games = document.getElementById('games');
    var players = [];
+   var output = [];
+   var udda = [];
 
 //Create players
    for (let p=0; p<number; p++) {
      var letter = p+65;
      var k = letter.toString();
-     var d = String.fromCharCode(k);
-     players.push(d);
+     players.push(String.fromCharCode(k));
    };
 
  //Create rounds
    for (let i=0; i<number-1; i++) {
-     x=players.pop();
+     var x = players.pop();
      players.splice(1,0,x);
      var counter = number-1;
-  console.log(players)
+     var rounds = [];
 
-      //Create opponents
+  //Create opponents
       for (let j=0; j<number/2; j++) {
+        if (players[j] !== players[counter]) {
         var matcher = players[j] + players[counter];
+        rounds.push(`<p> ${matcher}</p>`)
+        } else {
+        udda.push(players[j])
+        }
         counter--;
-
-   console.log(matcher)
       }
-   }
+      output.push(
+        `<div>
+          <h2 class="round">Round ${[i+1]}</h2>
+          <p class="games">${rounds.join("")}</p>
+          <p class="playerX">Player ${udda} will pass this round</p>
+         </div>`
+      );
+   };
+
+   games.innerHTML = output.join("")
  };
-
-
-
 
 </script>
 </html>
